@@ -1,0 +1,54 @@
+package Wrapper_filter_demo;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+@WebServlet("/MainServlet")
+public class MainServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LogFilter logFilter = new LogFilter();
+        SecurityFilter securityFilter = new SecurityFilter();
+
+        logFilter.doFilter(request, response, (req, res) -> {
+            securityFilter.doFilter(req, res, (req2, res2) -> {
+            	 CustomHttpServletRequestWrapper customRequest = new CustomHttpServletRequestWrapper(request);
+            	 CustomHttpServletResponseWrapper customResponse = new CustomHttpServletResponseWrapper(response);
+                processRequest(customRequest, customResponse);
+
+ 
+                String responseContent = customResponse.getResponseContent();
+
+             
+                res2.setContentType("text/html");
+                PrintWriter out = res2.getWriter();
+                out.println(responseContent);
+                out.close();
+            });
+        });
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+     
+        doGet(request, response);
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+    
+        try {
+            PrintWriter writer = response.getWriter();
+            writer.println("<html><head><title>Main Servlet</title></head><body>");
+            writer.println("<h1>Main Servlet</h1>");
+            writer.println("<p>This servlet is protected by log and security filters.</p>");
+            writer.println("</body></html>");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

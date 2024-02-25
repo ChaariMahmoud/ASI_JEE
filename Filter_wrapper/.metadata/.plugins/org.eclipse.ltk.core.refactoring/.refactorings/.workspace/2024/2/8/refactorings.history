@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;Wrapper_filter_example&apos;" deleteContents="false" description="Delete resource &apos;Wrapper_filter_example&apos;" element1="/Wrapper_filter_example" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1708784920991"/>
+</session>
