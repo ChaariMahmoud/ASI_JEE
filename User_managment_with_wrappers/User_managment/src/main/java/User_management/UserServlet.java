@@ -1,6 +1,8 @@
-package User_managment;
+package User_management;
 
 import java.io.IOException;
+
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

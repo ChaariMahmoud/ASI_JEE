@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -26,6 +27,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         th, td {
             padding: 10px;
@@ -48,21 +50,12 @@
                 </tr>
             </thead>
             <tbody>
-                <%-- Utilisez une boucle pour afficher tous les utilisateurs --%>
-                <%
-                    UserWrapper userWrapper = (UserWrapper) request.getServletContext().getAttribute("userWrapper");
-                    if (userWrapper != null) {
-                        List<User> users = userWrapper.getUsers();
-                        for (User user : users) {
-                %>
-                            <tr>
-                                <td><%= user.getUsername() %></td>
-                                <td><%= user.getEmail() %></td>
-                            </tr>
-                <%
-                        }
-                    }
-                %>
+                <c:forEach var="user" items="${userWrapper.users}">
+                    <tr>
+                        <td><c:out value="${user.username}" /></td>
+                        <td><c:out value="${user.email}" /></td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>
